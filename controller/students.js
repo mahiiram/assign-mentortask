@@ -4,7 +4,7 @@ const studentmodel = require("./model/studentmodel");
 
 student_Router.get("/getstudents", async (req,res,next)=>{
     let item;
-    try {
+    try {  
       item = await studentmodel.find();
     } catch (err) {
       return res.status(500).json({ message: err.message });
