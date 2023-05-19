@@ -3,6 +3,7 @@ const student_Router = require("./controller/students");
 const mentor_Router = require("./controller/mentors");
 const mongodb = require("./mongodb");
 const App_server = express();
+const cors = require("cors")
 // const App_Router = express.Router();
 
 
@@ -11,7 +12,7 @@ const App_server = express();
 //         message:"Server Started"
 //     })
 // });
-
+App_server.use(cors())
 
 App_server.use('/api',student_Router);
 App_server.use('/api',mentor_Router);
