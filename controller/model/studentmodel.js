@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const student_schema = mongoose.Schema({
+const student_schema =new mongoose.Schema({
     studentName:{
         type: String,
         required: true
@@ -21,9 +21,10 @@ const student_schema = mongoose.Schema({
         type:String,
         required: true
      },
-     mentors:{
-        type: Array,   //mongoose.Types.ObjectId,
-        required: false,
+     mentorId:{
+        type: mongoose.Types.ObjectId,
+        ref:'mentor',
+        required: true,
      }
 
 })

@@ -1,6 +1,6 @@
 const student_Router = require("express").Router();
 // const { response } = require("../app");
-const studentmodel = require("./model/studentmodel");
+const studentmodel = require("./model/studentmodel"); 
 
 student_Router.post('/createstudent', (req,res,next)=>{
     // console.log(req.body)
@@ -10,7 +10,7 @@ student_Router.post('/createstudent', (req,res,next)=>{
     contactNumber,
     courseName,
     primarylanguage,
-    mentors
+    mentorId
    } = req.body;
 
    const newstudent = new studentmodel({
@@ -19,7 +19,7 @@ student_Router.post('/createstudent', (req,res,next)=>{
     contactNumber,
     courseName,
     primarylanguage,
-    mentors
+    mentorId
    });
    newstudent.save().then((response)=>{
      if(response._id){
@@ -46,40 +46,37 @@ student_Router.post('/createstudent', (req,res,next)=>{
 });
 
 
-//find the student by a mentor 
-student_Router.get("/students/findbymentor",  (req,res,next)=>{
-    studentmodel.aggregate([
-      {
-        $match:{mentors:{$elemMatch:{$and:[{Name:"Ruban"}]}}}
-      },
-      {
-        $project:{
-            studentName:1
-        } 
-      }
-    ]).then((result)=>{
-        res.send(result);
-    }).catch((err)=>{
-        console.log(err)
-    })
+//find the student by name
+student_Router.get("/students/:id", async (req,res,next)=>{
+        let item;
+        try {
+          item = await studentmodel.findById(req.params.id);
+        } catch (err) {
+          return res.status(500).json({ message: err.message });
+        }
+        if(!item){
+            return res.status(500).json({
+                message:"There is no student by given id"
+            })
+        }
+        return res.status(200).json({ item })  
 })
 
-//Finding the mentors for a particular student
-student_Router.get("/students/find",  (req,res,next)=>{
-    studentmodel.aggregate([
-        {
-            $match:{studentName:"Mahendran"}
-        },
-        {
-          $project:{
-            mentors:1
-          }
+//Finding the mentorId for a particular student
+student_Router.get("/students/bymentor/:id",async  (req,res,next)=>{
+    
+    let item;
+        try {
+          item = await studentmodel.findById(req.params.mentorId);
+        } catch (err) {
+          return res.status(500).json({ message: err.message });
         }
-    ]).then((result)=>{
-        res.send(result);
-    }).catch((err)=>{
-        console.log(err)
-    })
+        if(!item){
+            return res.status(500).json({
+                message:"There is no student by given id"
+            })
+        }
+        return res.status(200).json({ item })  
 })
 
 
@@ -95,7 +92,7 @@ student_Router.patch('/updatestudent', (req,res,next)=>{
     contactNumber,
     courseName,
     primarylanguage,
-    mentors
+    mentorId
    } = req.body;
 
    studentmodel.updateOne({
@@ -107,7 +104,7 @@ student_Router.patch('/updatestudent', (req,res,next)=>{
       contactNumber,
       courseName,
       primarylanguage,
-      mentors
+      mentorId
     }
    }).then((response)=>{
      if(response && response.acknowledged && response.modifiedCount===1){

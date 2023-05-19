@@ -1,6 +1,7 @@
 const express = require("express");
 const student_Router = require("./controller/students");
 const mentor_Router = require("./controller/mentors");
+const mongodb = require("./mongodb");
 const App_server = express();
 // const App_Router = express.Router();
 
@@ -12,7 +13,8 @@ const App_server = express();
 // });
 
 
-App_server.use('/',student_Router);
-App_server.use('/',mentor_Router);
+App_server.use('/api',student_Router);
+App_server.use('/api',mentor_Router);
+App_server.use('/api',mongodb)
 
 module.exports = App_server;

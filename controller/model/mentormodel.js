@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const  mentor_schema= mongoose.Schema({
+const  mentor_schema=new mongoose.Schema({
     mentorName:{
         type: String,
         required: true
