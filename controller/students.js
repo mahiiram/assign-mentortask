@@ -2,6 +2,21 @@ const student_Router = require("express").Router();
 // const { response } = require("../app");
 const studentmodel = require("./model/studentmodel"); 
 
+student_Router.get("/getstudents", async (req,res,next)=>{
+    let item;
+    try {
+      item = await studentmodel.find();
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+    if(!item){
+        return res.status(500).json({
+            message:"There is no student by given id"
+        })
+    }
+    return res.status(200).json({ item })  
+})
+
 student_Router.post('/createstudent', (req,res,next)=>{
     // console.log(req.body)
    const {
