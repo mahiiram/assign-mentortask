@@ -61,7 +61,7 @@ student_Router.post('/createstudent', (req,res,next)=>{
 });
 
 
-//find the student by name
+//find the student by id
 student_Router.get("/students/:id", async (req,res,next)=>{
         let item;
         try {
@@ -77,12 +77,19 @@ student_Router.get("/students/:id", async (req,res,next)=>{
         return res.status(200).json({ item })  
 })
 
-//Finding the mentorId for a particular student
-student_Router.get("/students/bymentor/:id",async  (req,res,next)=>{
+//using the mentorId for a particular student
+student_Router.get("/students/bymentor",async  (req,res,next)=>{
     
     let item;
         try {
-          item = await studentmodel.findById(req.params.mentorId);
+          item = await studentmodel.aggregate([
+            {
+                $match:{"mentorId":{$elematch:{$and:[{"_id":"6467f1971d203efc835d8456"}]}}}
+            },
+            {
+                $project:{studentname:1}
+            }
+          ]);
         } catch (err) {
           return res.status(500).json({ message: err.message });
         }
