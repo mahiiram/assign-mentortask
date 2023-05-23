@@ -1,38 +1,30 @@
 const mongoose = require('mongoose');
 
 const student_schema = new mongoose.Schema({
-   studentName: {
+   studentName:{
       type: String,
       required: true
-   },
-   studentEmail: {
+  },
+  studentEmail:{
       type: String,
       required: true,
    },
-   contactNumber: {
+  contactNumber:{
       type: String,
       required: true
    },
-   courseName: {
-      type: String,
+   courseName:{
+      type:String,
+      required:true
+   },
+   primarylanguage:{
+      type:String,
       required: true
    },
-   primarylanguage: {
-      type: String,
-      required: true
-   },
-   mentorId: [{
-      name: {
-         type: String,
-         required: true
-      }
-   }, {
-      objectid: {
-         type: mongoose.Types.ObjectId,
-         ref: 'mentor',
-         required: true,
-      }
-   }]
+   mentors:{
+      type: Array,   //mongoose.Types.ObjectId,
+      required: false,
+   }
 
 })
 
