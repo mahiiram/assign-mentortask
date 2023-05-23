@@ -150,5 +150,39 @@ student_Router.patch('/updatestudent', (req,res,next)=>{
     })
 })
 })
+student_Router.get("/students/findbymentor",  (req,res,next)=>{
+    studentmodel.aggregate([
+      {
+        $match:{mentors:{$elemMatch:{$and:[{Name:"Ruban"}]}}}
+      },
+      {
+        $project:{
+            studentName:1
+        } 
+      }
+    ]).then((result)=>{
+        res.send(result);
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
+
+// find the mentor by student name
+student_Router.get("/students/find",  (req,res,next)=>{
+    studentmodel.aggregate([
+        {
+            $match:{studentName:"Mahendran"}
+        },
+        {
+          $project:{
+            mentors:1
+          }
+        }
+    ]).then((result)=>{
+        res.send(result);
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
 
 module.exports = student_Router;
