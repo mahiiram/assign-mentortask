@@ -15,8 +15,6 @@ node_server.use(bodyparser.json());
 node_server.use(bodyparser.urlencoded({ extended:true }));
 
 
-// require('./dbconfig');
-// node_server.use("/",App_server)
 node_server.use('/',student_Router);
 node_server.use('/',mentor_Router);
 
