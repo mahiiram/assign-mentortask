@@ -77,29 +77,7 @@ student_Router.get("/students/:id", async (req,res,next)=>{
         return res.status(200).json({ students })  
 })
 
-//using the mentorId for a particular student
-student_Router.get("/students/bymentor",async  (req,res,next)=>{
-    
-    let students;
-        try {
-          students = await studentmodel.aggregate([
-            {
-                $match:{mentorId:{$elematch:{$and:[{"_id":"6467f1971d203efc835d8456"}]}}}
-            },
-            {
-                $project:{studentname:1}
-            }
-          ]);
-        } catch (err) {
-          return res.status(500).json({ message: err.message });
-        }
-        if(!students){
-            return res.status(500).json({
-                message:"There is no student by given id"
-            })
-        }
-        return res.status(200).json({ students })  
-})
+
 
 
 // update the mentor using studentid 
@@ -150,6 +128,9 @@ student_Router.patch('/updatestudent', (req,res,next)=>{
     })
 })
 })
+
+// finding the students name by mentor name
+
 student_Router.get("/students/findbymentor",  (req,res,next)=>{
     studentmodel.aggregate([
       {
