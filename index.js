@@ -1,10 +1,13 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const node_server = express();
-const App_server = require('./app');
-const { ServerApiVersion } = require("mongodb");
 const env = require("dotenv").config()
-const cors = require("cors")
+const cors = require("cors");
+const mongoose = require('mongoose');
+const student_Router = require("./controller/students");
+const mentor_Router = require("./controller/mentors");
+
+
 
 
 node_server.use(cors());
@@ -12,12 +15,23 @@ node_server.use(bodyparser.json());
 node_server.use(bodyparser.urlencoded({ extended:true }));
 
 
-require('./dbconfig');
+// require('./dbconfig');
+// node_server.use("/",App_server)
+node_server.use('/',student_Router);
+node_server.use('/',mentor_Router);
 
-node_server.use("/",App_server)
 
 
-const port= process.env.PORT || 5000;
+const port= 5000;
 node_server.listen(port,() => {
     console.log('server started', port);
 });
+mongoose.connect(process.env.DB).then(()=>{
+    console.log("DB connected")
+}).catch((err)=>{
+    console.log(err)
+})
+
+
+
+

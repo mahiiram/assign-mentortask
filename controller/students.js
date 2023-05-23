@@ -2,7 +2,7 @@ const student_Router = require("express").Router();
 // const { response } = require("../app");
 const studentmodel = require("./model/studentmodel"); 
 
-student_Router.get("/getstudents", async (req,res,next)=>{
+student_Router.get("/", async (req,res,next)=>{
     let item;
     try {  
       item = await studentmodel.find();
@@ -84,7 +84,7 @@ student_Router.get("/students/bymentor",async  (req,res,next)=>{
         try {
           item = await studentmodel.aggregate([
             {
-                $match:{"mentorId":{$elematch:{$and:[{"_id":"6467f1971d203efc835d8456"}]}}}
+                $match:{mentorId:{$elematch:{$and:[{"_id":"6467f1971d203efc835d8456"}]}}}
             },
             {
                 $project:{studentname:1}
