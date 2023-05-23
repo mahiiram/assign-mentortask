@@ -11,7 +11,7 @@ student_Router.get("/", async (req,res,next)=>{
     }
     if(!item){
         return res.status(500).json({
-            message:"There is no student by given id"
+            message:"There is no student"
         })
     }
     return res.status(200).json({ item })  
