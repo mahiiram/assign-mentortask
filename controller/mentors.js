@@ -5,18 +5,18 @@ const mentor_Router = require("express").Router();
 
 
 mentor_Router.get("/", async (req,res,next)=>{
-    let item;
+    let mentors;
     try {  
-      item = await mentormodel.find();
+      mentors = await mentormodel.find();
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
-    if(!item){
+    if(!mentors){
         return res.status(500).json({
             message:"There is no mentors"
         })
     }
-    return res.status(200).json({ item })  
+    return res.status(200).json({ mentors })  
 })
 
 mentor_Router.post('/creatementor', (req,res,next)=>{

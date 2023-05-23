@@ -3,18 +3,18 @@ const student_Router = require("express").Router();
 const studentmodel = require("./model/studentmodel"); 
 
 student_Router.get("/", async (req,res,next)=>{
-    let item;
+    let students;
     try {  
-      item = await studentmodel.find();
+      students = await studentmodel.find();
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
-    if(!item){
+    if(!students){
         return res.status(500).json({
             message:"There is no student"
         })
     }
-    return res.status(200).json({ item })  
+    return res.status(200).json({ students })  
 })
 
 student_Router.post('/createstudent', (req,res,next)=>{
@@ -63,26 +63,26 @@ student_Router.post('/createstudent', (req,res,next)=>{
 
 //find the student by id
 student_Router.get("/students/:id", async (req,res,next)=>{
-        let item;
+        let students;
         try {
-          item = await studentmodel.findById(req.params.id);
+          students = await studentmodel.findById(req.params.id);
         } catch (err) {
           return res.status(500).json({ message: err.message });
         }
-        if(!item){
+        if(!students){
             return res.status(500).json({
                 message:"There is no student by given id"
             })
         }
-        return res.status(200).json({ item })  
+        return res.status(200).json({ students })  
 })
 
 //using the mentorId for a particular student
 student_Router.get("/students/bymentor",async  (req,res,next)=>{
     
-    let item;
+    let students;
         try {
-          item = await studentmodel.aggregate([
+          students = await studentmodel.aggregate([
             {
                 $match:{mentorId:{$elematch:{$and:[{"_id":"6467f1971d203efc835d8456"}]}}}
             },
@@ -93,12 +93,12 @@ student_Router.get("/students/bymentor",async  (req,res,next)=>{
         } catch (err) {
           return res.status(500).json({ message: err.message });
         }
-        if(!item){
+        if(!students){
             return res.status(500).json({
                 message:"There is no student by given id"
             })
         }
-        return res.status(200).json({ item })  
+        return res.status(200).json({ students })  
 })
 
 
